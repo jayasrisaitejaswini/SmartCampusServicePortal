@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Submit Service Request | Smart Campus</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            border-bottom: 1px solid #222;
+            background: #080808;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #00e5ff;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #00e5ff;
+        }
+
+        /* Page */
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid #00e5ff;
+            color: #00e5ff;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        /* Form */
+
+        .form-card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 35px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        input,
+        select,
+        textarea {
+            background: #080808;
+            border: 1px solid #333;
+            color: white;
+            padding: 13px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #00e5ff;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            background: #00e5ff;
+            color: #001014;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.2);
+        }
+
+        .note {
+            margin-top: 18px;
+            color: #777;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .form-card {
+                padding: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <div class="logo">
+            SMART<span>CAMPUS</span>
+        </div>
+
+        <a href="index.html">← Back to Home</a>
+
+    </nav>
+
+
+    <!-- Main Content -->
+
+    <div class="container">
+
+        <div class="heading">
+
+            <div class="tag">
+                CAMPUS SERVICE REQUEST
+            </div>
+
+            <h1>Report an Issue</h1>
+
+            <p>
+                Tell us about the issue you're facing on campus.
+                Our team will review your request and work towards
+                resolving it.
+            </p>
+
+        </div>
+
+
+        <!-- Request Form -->
+
+        <div class="form-card">
+
+            <form action="submitRequest" method="post">
+
+                <div class="form-grid">
+
+
+                    <!-- Student Name -->
+
+                    <div class="form-group">
+
+                        <label>Student Name</label>
+
+                       <input
+    type="text"
+    name="studentName"
+    placeholder="Enter your full name"
+    required>
+
+                    </div>
+
+
+                    <!-- Student ID -->
+
+                    <div class="form-group">
+
+                        <label>Student ID</label>
+
+                       <input
+    type="text"
+    name="studentId"
+    placeholder="Example: 24IT001"
+    required>
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="student@example.com"
+                            required>
+
+                    </div>
+
+
+                    <!-- Category -->
+
+                    <div class="form-group">
+
+                        <label>Service Category</label>
+
+                       <select name="category" required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option>Wi-Fi / Network</option>
+
+                            <option>Classroom</option>
+
+                            <option>Electrical</option>
+
+                            <option>Hostel</option>
+
+                            <option>Library</option>
+
+                            <option>Transport</option>
+
+                            <option>Canteen</option>
+
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Location -->
+
+                    <div class="form-group">
+
+                        <label>Location</label>
+
+                        <input
+                            type="text"
+                            name="location"
+                            placeholder="Block / Room / Lab"
+                            required>
+
+                    </div>
+
+
+                    <!-- Priority -->
+
+                    <div class="form-group">
+
+                        <label>Priority</label>
+
+                        <select name="priority" required>
+
+                            <option value="">
+                                Select priority
+                            </option>
+
+                            <option>Low</option>
+
+                            <option>Medium</option>
+
+                            <option>High</option>
+
+                            <option>Urgent</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <div class="form-group full">
+
+                        <label>Describe the Issue</label>
+
+                        <textarea
+    name="description"
+    placeholder="Explain the issue clearly..."
+    required></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn">
+
+                    SUBMIT SERVICE REQUEST
+
+                </button>
+
+
+                <div class="note">
+
+                    Your request will receive a unique Request ID
+                    after submission.
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

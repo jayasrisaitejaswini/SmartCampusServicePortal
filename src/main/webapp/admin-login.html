@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Smart Campus</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 430px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 35px;
+        }
+
+        .logo span {
+            color: #00e5ff;
+        }
+
+        .card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 35px;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid #00e5ff;
+            color: #00e5ff;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            background: #080808;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #00e5ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #00e5ff;
+            color: #001014;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #777;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: #00e5ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            SMART<span>CAMPUS</span>
+        </div>
+
+        <div class="card">
+
+            <div class="tag">
+                ADMIN PORTAL
+            </div>
+
+            <h1>Admin Login</h1>
+
+            <p class="intro">
+                Sign in to manage campus service requests
+                and monitor support activity.
+            </p>
+
+            <form action="AdminLoginServlet" method="post">
+
+                <label>Admin Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter admin email"
+                    required>
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required>
+
+                <button type="submit">
+                    ADMIN LOGIN
+                </button>
+
+            </form>
+
+            <a href="index.html" class="back">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

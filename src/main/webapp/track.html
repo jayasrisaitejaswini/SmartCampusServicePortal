@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Request | Smart Campus</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #00e5ff;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #00e5ff;
+        }
+
+        /* Main */
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 70px auto;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid #00e5ff;
+            color: #00e5ff;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .intro {
+            color: #999;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        /* Search Box */
+
+        .search-card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .search-card label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-area input {
+            flex: 1;
+            background: #080808;
+            border: 1px solid #333;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-area input:focus {
+            border-color: #00e5ff;
+        }
+
+        .track-btn {
+            padding: 14px 25px;
+            background: #00e5ff;
+            color: #001014;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .track-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* Example Status */
+
+        .status-card {
+            margin-top: 30px;
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .request-id {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #173b20;
+            color: #63e681;
+            font-size: 12px;
+        }
+
+        /* Timeline */
+
+        .timeline {
+            border-left: 2px solid #333;
+            padding-left: 25px;
+            margin-left: 8px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -32px;
+            top: 3px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00e5ff;
+        }
+
+        .timeline-item h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item p {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .note {
+            margin-top: 25px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .search-area {
+                flex-direction: column;
+            }
+
+            .track-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <div class="logo">
+            SMART<span>CAMPUS</span>
+        </div>
+
+        <a href="index.html">← Back to Home</a>
+
+    </nav>
+
+
+    <!-- Main Content -->
+
+    <div class="container">
+
+        <div class="tag">
+            REQUEST TRACKING
+        </div>
+
+        <h1>Track Your Request</h1>
+
+        <p class="intro">
+            Enter your Request ID to check the current status
+            and progress of your campus service request.
+        </p>
+
+
+        <!-- Search -->
+
+        <div class="search-card">
+
+            <label>
+                Enter Request ID
+            </label>
+             <form action="TrackRequestServlet" method="get">
+            <div class="search-area">
+
+                <input
+    type="text"
+    name="requestId"
+    placeholder="Enter Request ID"
+    required>
+
+                <button type="submit" class="track-btn">
+                    TRACK REQUEST
+                </button>
+
+           
+
+        </div>
+        </form>
+
+
+        <!-- Example Status -->
+
+        <div class="status-card">
+
+            <div class="status-header">
+
+                <div>
+
+                    <div class="request-id">
+                        Request ID
+                    </div>
+
+                    <strong>
+                        SCH-2026-1047
+                    </strong>
+
+                </div>
+
+                <div class="status">
+                    IN PROGRESS
+                </div>
+
+            </div>
+
+
+            <!-- Timeline -->
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <h3>
+                        Request Submitted
+                    </h3>
+
+                    <p>
+                        Your service request was successfully submitted.
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <h3>
+                        Assigned to Department
+                    </h3>
+
+                    <p>
+                        The request was assigned to the appropriate department.
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <h3>
+                        Work in Progress
+                    </h3>
+
+                    <p>
+                        The assigned team is currently working on the issue.
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <h3>
+                        Resolution Pending
+                    </h3>
+
+                    <p>
+                        Final resolution will appear here once completed.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="note">
+                This is a preview. Live request tracking will be connected
+                to the database later.
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

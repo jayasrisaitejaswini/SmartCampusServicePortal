@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Smart Campus</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8%;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #00e5ff;
+        }
+
+        .logout {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            color: #00e5ff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid #00e5ff;
+            color: #00e5ff;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            color: #888;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00e5ff;
+        }
+
+        .table-card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 14px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        .table-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #777;
+            font-size: 12px;
+            padding: 15px;
+            border-bottom: 1px solid #292929;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            font-size: 13px;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #173b20;
+            color: #63e681;
+            font-size: 11px;
+        }
+
+        .action {
+            color: #00e5ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 800px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            SMART<span>CAMPUS</span>
+        </div>
+
+        <a href="index.html" class="logout">
+            Logout
+        </a>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="tag">
+            ADMIN PORTAL
+        </div>
+
+        <h1>Admin Dashboard</h1>
+
+        <p class="intro">
+            Monitor and manage campus service requests from one place.
+        </p>
+
+
+        <!-- Statistics -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Total Requests</h3>
+
+                <div class="number">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Pending</h3>
+
+                <div class="number">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>In Progress</h3>
+
+                <div class="number">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Resolved</h3>
+
+                <div class="number">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Requests Table -->
+
+        <div class="table-card">
+
+            <div class="table-title">
+                Recent Service Requests
+            </div>
+
+            <table>
+
+                <tr>
+
+                    <th>REQUEST ID</th>
+                    <th>STUDENT ID</th>
+                    <th>CATEGORY</th>
+                    <th>PRIORITY</th>
+                    <th>STATUS</th>
+                    <th>DEPARTMENT</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>#1</td>
+                    <td>1</td>
+                    <td>Wi-Fi / Network</td>
+                    <td>High</td>
+
+                    <td>
+                        <span class="status">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+                        IT Support
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
