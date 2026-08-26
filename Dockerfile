@@ -1,4 +1,4 @@
-FROM tomcat:9.0-jdk8-temurin
+FROM tomcat:9.0.121-jdk21-temurin
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
