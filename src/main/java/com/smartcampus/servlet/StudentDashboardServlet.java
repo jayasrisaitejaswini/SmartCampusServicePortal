@@ -160,8 +160,13 @@ public class StudentDashboardServlet extends HttpServlet {
                 + "</div>"
                 + "</div>"
                 + "<div class='actions'>"
+
                 + "<a class='btn primary' href='request.html'>REPORT AN ISSUE</a>"
+
                 + "<a class='btn secondary' href='track.html'>TRACK REQUEST</a>"
+
+                + "<a class='btn secondary' href='MyRequestsServlet'>MY REQUESTS</a>"
+
                 + "</div>"
                 + "</div>"
                 + "</body>"
