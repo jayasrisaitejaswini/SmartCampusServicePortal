@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static final String URL =
-            "jdbc:mysql://localhost:3306/smartcampus";
+            "jdbc:mysql://mysql-1b2e86f5-smartcampusserviceportal.b.aivencloud.com:10062/defaultdb?sslMode=REQUIRED";
 
     private static final String USER =
-            "root";
+            "avnadmin";
 
     private static final String PASSWORD =
             System.getenv("SMARTCAMPUS_DB_PASSWORD");

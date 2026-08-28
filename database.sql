@@ -1,8 +1,7 @@
 -- SmartCampus Service Portal Database
 -- Schema only: no personal/student/demo data is included.
+USE defaultdb;
 
-CREATE DATABASE IF NOT EXISTS smartcampus;
-USE smartcampus;
 
 CREATE TABLE IF NOT EXISTS students (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
