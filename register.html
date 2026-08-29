@@ -260,70 +260,92 @@
         </a>
 
     </div>
-<script>
-    const registerForm = document.getElementById("registerForm");
-    const rollInput = document.getElementById("rollNumber");
-    const rollError = document.getElementById("rollError");
 
-    function validateRollNumber() {
 
-        const rollNumber = rollInput.value.trim();
+    <script>
 
-        if (rollNumber.length === 0) {
-            rollError.textContent = "";
-            return false;
+        const registerForm = document.getElementById("registerForm");
+
+        const rollInput = document.getElementById("rollNumber");
+
+        const rollError = document.getElementById("rollError");
+
+
+        function validateRollNumber() {
+
+            const rollNumber = rollInput.value.trim();
+
+
+            // Empty input
+
+            if (rollNumber.length === 0) {
+
+                rollError.textContent = "";
+
+                return false;
+
+            }
+
+
+            // Less than 10 characters
+
+            if (rollNumber.length < 10) {
+
+                rollError.style.color = "#ff6b6b";
+
+                rollError.textContent =
+                    "Roll number must contain exactly 10 characters. You entered "
+                    + rollNumber.length + " characters.";
+
+                return false;
+
+            }
+
+
+            // Invalid characters
+
+            if (!/^[A-Za-z0-9]{10}$/.test(rollNumber)) {
+
+                rollError.style.color = "#ff6b6b";
+
+                rollError.textContent =
+                    "Only uppercase letters, lowercase letters, and numbers are allowed.";
+
+                return false;
+
+            }
+
+
+            // Valid roll number
+
+            rollError.style.color = "#00e5ff";
+
+            rollError.textContent = "✓ Valid roll number";
+
+            return true;
+
         }
 
-        if (rollNumber.length < 10) {
-            rollError.style.color = "#ff6b6b";
-            rollError.textContent =
-                "Roll number must contain exactly 10 characters. You entered "
-                + rollNumber.length + " characters.";
-            return false;
-        }
 
-        if (rollNumber.length > 10) {
-            rollError.style.color = "#ff6b6b";
-            rollError.textContent =
-                "Roll number must contain exactly 10 characters.";
-            return false;
-        }
+        // Validate while typing
 
-        if (!/^[A-Za-z0-9]{10}$/.test(rollNumber)) {
-            rollError.style.color = "#ff6b6b";
-            rollError.textContent =
-                "Only uppercase letters, lowercase letters, and numbers are allowed.";
-            return false;
-        }
+        rollInput.addEventListener("input", validateRollNumber);
 
-        rollError.style.color = "#00e5ff";
-        rollError.textContent = "✓ Valid roll number";
 
-        return true;
-    }
+        // Prevent form submission if roll number is invalid
 
-    // SHOW MESSAGE WHILE TYPING
-    rollInput.addEventListener("input", function () {
-        validateRollNumber();
-    });
+        registerForm.addEventListener("submit", function(event) {
 
-    // ALSO VALIDATE WHEN USER LEAVES THE FIELD
-    rollInput.addEventListener("blur", function () {
-        validateRollNumber();
-    });
+            if (!validateRollNumber()) {
 
-    // BLOCK FORM SUBMISSION IF INVALID
-    registerForm.addEventListener("submit", function (event) {
+                event.preventDefault();
 
-        if (!validateRollNumber()) {
-            event.preventDefault();
-            rollInput.focus();
-        }
+            }
 
-    });
-</script>
+        });
 
-    
+    </script>
+
 </body>
 
 </html>
