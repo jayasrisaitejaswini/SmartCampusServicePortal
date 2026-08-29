@@ -36,6 +36,7 @@ public class RegisterServlet extends HttpServlet {
         if (email != null) email = email.trim();
         if (password != null) password = password.trim();
 
+
         // SERVER-SIDE ROLL NUMBER VALIDATION
         if (rollNumber == null || !rollNumber.matches("[A-Za-z0-9]{10}")) {
 
@@ -43,16 +44,33 @@ public class RegisterServlet extends HttpServlet {
                 response,
                 "Invalid Roll Number",
                 "Roll number must contain exactly 10 characters.",
-                "Use only letters and numbers.",
+                "Use only uppercase letters, lowercase letters, and numbers.",
                 "register.html"
             );
 
             return;
         }
 
+
+        // BASIC EMAIL VALIDATION
+        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+
+            showMessage(
+                response,
+                "Invalid Email",
+                "Please enter a valid email address.",
+                "Example: student@gmail.com",
+                "register.html"
+            );
+
+            return;
+        }
+
+
         String sql = "INSERT INTO students "
                    + "(name, roll_number, email, password) "
                    + "VALUES (?, ?, ?, ?)";
+
 
         try (
             Connection con = DBConnection.getConnection();
@@ -77,31 +95,39 @@ public class RegisterServlet extends HttpServlet {
                 );
             }
 
-        } catch (SQLIntegrityConstraintViolationException e) {
+        }
+        catch (SQLIntegrityConstraintViolationException e) {
 
             String errorMessage = e.getMessage().toLowerCase();
 
-            if (errorMessage.contains("students.email")) {
+            // EMAIL ALREADY EXISTS
+            if (errorMessage.contains("email")) {
 
                 showMessage(
                     response,
-                    "Email Already Registered",
-                    "An account with this email already exists.",
+                    "Email Already Exists",
+                    "This email is already registered.",
                     "Please use another email or login to your existing account.",
                     "login.html"
                 );
 
-            } else if (errorMessage.contains("students.roll_number")) {
+            }
+
+            // ROLL NUMBER ALREADY EXISTS
+            else if (errorMessage.contains("roll_number")
+                    || errorMessage.contains("roll number")) {
 
                 showMessage(
                     response,
-                    "Roll Number Already Registered",
-                    "An account with this roll number already exists.",
+                    "Roll Number Already Exists",
+                    "This roll number is already registered.",
                     "Please use another roll number or login to your existing account.",
                     "login.html"
                 );
 
-            } else {
+            }
+
+            else {
 
                 showMessage(
                     response,
@@ -112,7 +138,8 @@ public class RegisterServlet extends HttpServlet {
                 );
             }
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
 
             e.printStackTrace();
 
@@ -124,7 +151,8 @@ public class RegisterServlet extends HttpServlet {
                 "register.html"
             );
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
 
             e.printStackTrace();
 
@@ -237,7 +265,9 @@ public class RegisterServlet extends HttpServlet {
             + "<p>" + description + "</p>"
 
             + "<a class='btn' href='" + link + "'>"
+
             + (link.equals("login.html") ? "Go to Login" : "Go Back")
+
             + "</a>"
 
             + "</div>"
