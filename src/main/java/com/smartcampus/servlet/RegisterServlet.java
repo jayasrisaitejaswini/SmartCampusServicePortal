@@ -3,6 +3,8 @@ package com.smartcampus.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,17 +28,36 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Remove extra spaces
+        if (name != null) name = name.trim();
+        if (rollNumber != null) rollNumber = rollNumber.trim();
+        if (email != null) email = email.trim();
+        if (password != null) password = password.trim();
+
+        // SERVER-SIDE ROLL NUMBER VALIDATION
+        if (rollNumber == null || !rollNumber.matches("[A-Za-z0-9]{10}")) {
+
+            showMessage(
+                response,
+                "Invalid Roll Number",
+                "Roll number must contain exactly 10 characters.",
+                "Use only letters and numbers.",
+                "register.html"
+            );
+
+            return;
+        }
+
         String sql = "INSERT INTO students "
                    + "(name, roll_number, email, password) "
                    + "VALUES (?, ?, ?, ?)";
 
-        response.setContentType("text/html;charset=UTF-8");
-
-        try {
-
+        try (
             Connection con = DBConnection.getConnection();
-
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql)
+        ) {
 
             ps.setString(1, name);
             ps.setString(2, rollNumber);
@@ -45,90 +66,188 @@ public class RegisterServlet extends HttpServlet {
 
             int rows = ps.executeUpdate();
 
-            ps.close();
-            con.close();
-
             if (rows > 0) {
 
-                response.getWriter().println(
-                    "<!DOCTYPE html>"
-                    + "<html>"
-                    + "<head>"
-                    + "<meta charset='UTF-8'>"
-                    + "<title>Account Created | Smart Campus</title>"
-                    + "<style>"
-                    + "body{margin:0;background:#080808;color:white;"
-                    + "font-family:Arial,sans-serif;display:flex;"
-                    + "align-items:center;justify-content:center;"
-                    + "min-height:100vh;}"
-                    + ".box{background:#111;border:1px solid #292929;"
-                    + "border-radius:16px;padding:40px;text-align:center;"
-                    + "width:90%;max-width:500px;}"
-                    + "h1{color:#00e5ff;}"
-                    + "p{color:#999;}"
-                    + ".btn{display:inline-block;margin-top:20px;"
-                    + "padding:12px 22px;background:#00e5ff;"
-                    + "color:#001014;text-decoration:none;"
-                    + "border-radius:8px;font-weight:bold;}"
-                    + "</style>"
-                    + "</head>"
-                    + "<body>"
-                    + "<div class='box'>"
-                    + "<h1>Account Created Successfully!</h1>"
-                    + "<p>Your student account has been created.</p>"
-                    + "<p>You can now login using your email and password.</p>"
-                    + "<a class='btn' href='login.html'>Go to Login</a>"
-                    + "</div>"
-                    + "</body>"
-                    + "</html>"
+                showMessage(
+                    response,
+                    "Account Created Successfully!",
+                    "Your student account has been created.",
+                    "You can now login using your email and password.",
+                    "login.html"
+                );
+            }
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+
+            String errorMessage = e.getMessage().toLowerCase();
+
+            if (errorMessage.contains("students.email")) {
+
+                showMessage(
+                    response,
+                    "Email Already Registered",
+                    "An account with this email already exists.",
+                    "Please use another email or login to your existing account.",
+                    "login.html"
                 );
 
+            } else if (errorMessage.contains("students.roll_number")) {
+
+                showMessage(
+                    response,
+                    "Roll Number Already Registered",
+                    "An account with this roll number already exists.",
+                    "Please use another roll number or login to your existing account.",
+                    "login.html"
+                );
+
+            } else {
+
+                showMessage(
+                    response,
+                    "Registration Failed",
+                    "This account information already exists.",
+                    "Please check your details and try again.",
+                    "register.html"
+                );
             }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+            showMessage(
+                response,
+                "Registration Failed",
+                "Unable to create your account at the moment.",
+                "Please try again later.",
+                "register.html"
+            );
 
         } catch (Exception e) {
 
             e.printStackTrace();
 
-            response.setContentType("text/html;charset=UTF-8");
-
-            response.getWriter().println(
-                "<!DOCTYPE html>"
-                + "<html>"
-                + "<head>"
-                + "<meta charset='UTF-8'>"
-                + "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-                + "<title>Registration Failed | Smart Campus</title>"
-                + "<style>"
-                + "*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}"
-                + "body{margin:0;background:#080808;color:white;min-height:100vh;"
-                + "display:flex;align-items:center;justify-content:center;}"
-                + ".box{width:90%;max-width:600px;background:#111;"
-                + "border:1px solid #292929;border-radius:16px;padding:45px;text-align:center;}"
-                + ".logo{font-size:22px;font-weight:bold;letter-spacing:1px;margin-bottom:30px;}"
-                + ".logo span{color:#00e5ff;}"
-                + ".icon{font-size:55px;color:#ff6b6b;margin-bottom:15px;}"
-                + "h1{font-size:28px;margin-bottom:12px;}"
-                + "p{color:#999;line-height:1.6;}"
-                + ".btn{display:inline-block;margin-top:20px;padding:12px 22px;"
-                + "border-radius:8px;text-decoration:none;font-weight:bold;"
-                + "background:#00e5ff;color:#001014;}"
-                + ".btn:hover{opacity:.85;}"
-                + "</style>"
-                + "</head>"
-                + "<body>"
-                + "<div class='box'>"
-                + "<div class='logo'>SMART<span>CAMPUS</span></div>"
-                + "<div class='icon'>!</div>"
-                + "<h1>Registration Failed</h1>"
-                + "<p>Unable to create your account.</p>"
-                + "<p>Please check your details and try again.</p>"
-                + "<a class='btn' href='register.html'>Go Back</a>"
-                + "</div>"
-                + "</body>"
-                + "</html>"
+            showMessage(
+                response,
+                "Registration Failed",
+                "Something went wrong.",
+                "Please check your details and try again.",
+                "register.html"
             );
         }
     }
+
+
+    private void showMessage(
+            HttpServletResponse response,
+            String title,
+            String message,
+            String description,
+            String link
+    ) throws IOException {
+
+        response.getWriter().println(
+
+            "<!DOCTYPE html>"
+            + "<html>"
+            + "<head>"
+            + "<meta charset='UTF-8'>"
+            + "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            + "<title>" + title + " | Smart Campus</title>"
+
+            + "<style>"
+
+            + "*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}"
+
+            + "body{"
+            + "margin:0;"
+            + "background:#080808;"
+            + "color:white;"
+            + "min-height:100vh;"
+            + "display:flex;"
+            + "align-items:center;"
+            + "justify-content:center;"
+            + "}"
+
+            + ".box{"
+            + "width:90%;"
+            + "max-width:550px;"
+            + "background:#111;"
+            + "border:1px solid #292929;"
+            + "border-radius:16px;"
+            + "padding:45px;"
+            + "text-align:center;"
+            + "}"
+
+            + ".logo{"
+            + "font-size:22px;"
+            + "font-weight:bold;"
+            + "letter-spacing:1px;"
+            + "margin-bottom:30px;"
+            + "}"
+
+            + ".logo span{color:#00e5ff;}"
+
+            + ".icon{"
+            + "font-size:45px;"
+            + "color:#00e5ff;"
+            + "margin-bottom:15px;"
+            + "}"
+
+            + "h1{"
+            + "font-size:28px;"
+            + "margin-bottom:15px;"
+            + "}"
+
+            + "p{"
+            + "color:#999;"
+            + "line-height:1.6;"
+            + "}"
+
+            + ".btn{"
+            + "display:inline-block;"
+            + "margin-top:22px;"
+            + "padding:12px 25px;"
+            + "background:#00e5ff;"
+            + "color:#001014;"
+            + "text-decoration:none;"
+            + "border-radius:8px;"
+            + "font-weight:bold;"
+            + "}"
+
+            + ".btn:hover{opacity:.85;}"
+
+            + "</style>"
+
+            + "</head>"
+
+            + "<body>"
+
+            + "<div class='box'>"
+
+            + "<div class='logo'>SMART<span>CAMPUS</span></div>"
+
+            + "<div class='icon'>✓</div>"
+
+            + "<h1>" + title + "</h1>"
+
+            + "<p>" + message + "</p>"
+
+            + "<p>" + description + "</p>"
+
+            + "<a class='btn' href='" + link + "'>"
+            + (link.equals("login.html") ? "Go to Login" : "Go Back")
+            + "</a>"
+
+            + "</div>"
+
+            + "</body>"
+
+            + "</html>"
+        );
+    }
+
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response)

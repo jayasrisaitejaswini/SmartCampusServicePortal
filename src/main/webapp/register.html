@@ -134,6 +134,12 @@
         .login-link a:hover {
             color: #00e5ff;
         }
+        #rollError {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+}
 
     </style>
 
@@ -169,13 +175,23 @@
             </div>
 
             <div class="form-group">
-                <label>Roll Number</label>
-                <input
-                    type="text"
-                    name="roll_number"
-                    placeholder="Enter your roll number"
-                    required>
-            </div>
+
+    <label>Roll Number</label>
+
+    <input
+        type="text"
+        id="rollNumber"
+        name="roll_number"
+        placeholder="Enter your 10-character roll number"
+        maxlength="10"
+        minlength="10"
+        pattern="[A-Za-z0-9]{10}"
+        title="Roll number must contain exactly 10 letters and numbers"
+        required>
+
+    <small id="rollError"></small>
+
+</div>
 
             <div class="form-group">
                 <label>Email</label>
@@ -213,6 +229,55 @@
         </a>
 
     </div>
+    <script>
+
+const rollInput = document.getElementById("rollNumber");
+const rollError = document.getElementById("rollError");
+
+rollInput.addEventListener("input", function () {
+
+    const rollNumber = rollInput.value;
+
+    // Empty input
+    if (rollNumber.length === 0) {
+
+        rollError.textContent = "";
+
+    }
+
+    // Less than 10 characters
+    else if (rollNumber.length < 10) {
+
+        rollError.style.color = "#ff6b6b";
+
+        rollError.textContent =
+            "Roll number must contain exactly 10 characters. You entered "
+            + rollNumber.length + " characters.";
+
+    }
+
+    // Invalid characters
+    else if (!/^[A-Za-z0-9]{10}$/.test(rollNumber)) {
+
+        rollError.style.color = "#ff6b6b";
+
+        rollError.textContent =
+            "Only letters and numbers are allowed.";
+
+    }
+
+    // Valid roll number
+    else {
+
+        rollError.style.color = "#00e5ff";
+
+        rollError.textContent = "✓ Valid roll number";
+
+    }
+
+});
+
+</script>
 
 </body>
 
