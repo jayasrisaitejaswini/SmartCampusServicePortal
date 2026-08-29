@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Create Account | Smart Campus</title>
@@ -32,6 +34,7 @@
             border: 1px solid #292929;
             border-radius: 16px;
             padding: 40px;
+            margin: 20px 0;
         }
 
         .logo {
@@ -96,6 +99,13 @@
             border-color: #00e5ff;
         }
 
+        #rollError {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 6px;
+            min-height: 16px;
+        }
+
         .register-btn {
             width: 100%;
             padding: 14px;
@@ -107,6 +117,10 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 5px;
+        }
+
+        .register-btn:hover {
+            opacity: 0.9;
         }
 
         .login-link {
@@ -134,12 +148,6 @@
         .login-link a:hover {
             color: #00e5ff;
         }
-        #rollError {
-    color: #ff6b6b;
-    font-size: 12px;
-    margin-top: 6px;
-    display: block;
-}
 
     </style>
 
@@ -163,121 +171,182 @@
             Create your student account to access the campus service portal.
         </p>
 
-        <form action="register" method="post">
+        <form id="registerForm" action="register" method="post">
 
             <div class="form-group">
+
                 <label>Name</label>
+
                 <input
                     type="text"
                     name="name"
                     placeholder="Enter your full name"
                     required>
+
             </div>
 
-            <div class="form-group">
-
-    <label>Roll Number</label>
-
-    <input
-        type="text"
-        id="rollNumber"
-        name="roll_number"
-        placeholder="Enter your 10-character roll number"
-        maxlength="10"
-        minlength="10"
-        pattern="[A-Za-z0-9]{10}"
-        title="Roll number must contain exactly 10 letters and numbers"
-        required>
-
-    <small id="rollError"></small>
-
-</div>
 
             <div class="form-group">
+
+                <label>Roll Number</label>
+
+                <input
+                    type="text"
+                    id="rollNumber"
+                    name="roll_number"
+                    placeholder="Enter your 10-character roll number"
+                    maxlength="10"
+                    required>
+
+                <small id="rollError"></small>
+
+            </div>
+
+
+            <div class="form-group">
+
                 <label>Email</label>
+
                 <input
                     type="email"
                     name="email"
                     placeholder="Enter your email"
                     required>
+
             </div>
 
+
             <div class="form-group">
+
                 <label>Password</label>
+
                 <input
                     type="password"
                     name="password"
                     placeholder="Create a password"
                     required>
+
             </div>
+
 
             <button
                 type="submit"
                 class="register-btn">
+
                 CREATE ACCOUNT
+
             </button>
 
         </form>
 
+
         <p class="login-link">
+
             Already have an account?
+
             <a href="login.html">Login</a>
+
         </p>
 
+
         <a href="index.html" class="back">
+
             ← Back to Home
+
         </a>
 
     </div>
+
+
     <script>
 
-const rollInput = document.getElementById("rollNumber");
-const rollError = document.getElementById("rollError");
+        const registerForm = document.getElementById("registerForm");
+        const rollInput = document.getElementById("rollNumber");
+        const rollError = document.getElementById("rollError");
 
-rollInput.addEventListener("input", function () {
 
-    const rollNumber = rollInput.value;
+        function validateRollNumber() {
 
-    // Empty input
-    if (rollNumber.length === 0) {
+            const rollNumber = rollInput.value.trim();
 
-        rollError.textContent = "";
 
-    }
+            // Empty input
 
-    // Less than 10 characters
-    else if (rollNumber.length < 10) {
+            if (rollNumber.length === 0) {
 
-        rollError.style.color = "#ff6b6b";
+                rollError.textContent = "";
+                return false;
+            }
 
-        rollError.textContent =
-            "Roll number must contain exactly 10 characters. You entered "
-            + rollNumber.length + " characters.";
 
-    }
+            // Less than 10 characters
 
-    // Invalid characters
-    else if (!/^[A-Za-z0-9]{10}$/.test(rollNumber)) {
+            if (rollNumber.length < 10) {
 
-        rollError.style.color = "#ff6b6b";
+                rollError.style.color = "#ff6b6b";
 
-        rollError.textContent =
-            "Only letters and numbers are allowed.";
+                rollError.textContent =
+                    "Roll number must contain exactly 10 characters. You entered "
+                    + rollNumber.length + " characters.";
 
-    }
+                return false;
+            }
 
-    // Valid roll number
-    else {
 
-        rollError.style.color = "#00e5ff";
+            // More than 10 characters
 
-        rollError.textContent = "✓ Valid roll number";
+            if (rollNumber.length > 10) {
 
-    }
+                rollError.style.color = "#ff6b6b";
 
-});
+                rollError.textContent =
+                    "Roll number must contain exactly 10 characters.";
 
-</script>
+                return false;
+            }
+
+
+            // Check only letters and numbers
+
+            if (!/^[A-Za-z0-9]{10}$/.test(rollNumber)) {
+
+                rollError.style.color = "#ff6b6b";
+
+                rollError.textContent =
+                    "Only uppercase letters, lowercase letters, and numbers are allowed.";
+
+                return false;
+            }
+
+
+            // Valid roll number
+
+            rollError.style.color = "#00e5ff";
+
+            rollError.textContent = "✓ Valid roll number";
+
+            return true;
+        }
+
+
+        // Validate while typing
+
+        rollInput.addEventListener("input", validateRollNumber);
+
+
+        // Prevent submission if invalid
+
+        registerForm.addEventListener("submit", function(event) {
+
+            if (!validateRollNumber()) {
+
+                event.preventDefault();
+
+            }
+
+        });
+
+    </script>
 
 </body>
 
