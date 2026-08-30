@@ -1,5 +1,6 @@
 # 🏫 SmartCampus Service Portal
-
+https://smartcampusserviceportal.onrender.com
+live link 
 ### A Java-based campus service management platform for reporting, tracking, and resolving student service requests.
 
 ![Java](https://img.shields.io/badge/Java-Servlets-orange)
@@ -21,15 +22,9 @@ https://github.com/jayasrisaitejaswini/SmartCampusServicePortal
 ---
 # 🎯 Demo Access
 
-Use the following dedicated demo accounts to explore the SmartCampus Service Portal.
+## 👨‍🎓 Student account
 
-## 👨‍🎓 Student Demo Account
-
-```text
-Email: demo@student.com
-Password: demo123
-
-The student demo account can be used to explore:
+The student account can be used to explore:
 
 Student login
 Student dashboard
@@ -54,14 +49,6 @@ Department assignment
 Request status updates
 Resolution notes
 Request monitoring
-
-These credentials are dedicated demo accounts created specifically for project demonstration.
-
-They are not personal accounts.
-
-Please do not use these credentials for any personal or external service.
-
-No real database passwords, API keys, GitHub tokens, or personal credentials are included in this README.
 
 # 📌 Overview
 
