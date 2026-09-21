@@ -12,22 +12,29 @@ public class DBConnection {
     private static final String USER =
             "avnadmin";
 
-    private static final String PASSWORD =
-            System.getenv("SMARTCAMPUS_DB_PASSWORD");
-
     public static Connection getConnection() throws SQLException {
+
+        String password = System.getenv("SMARTCAMPUS_DB_PASSWORD");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new SQLException("MySQL JDBC Driver not found.", e);
         }
 
-        if (PASSWORD == null || PASSWORD.isEmpty()) {
+        if (password == null || password.trim().isEmpty()) {
             throw new SQLException(
-                    "SMARTCAMPUS_DB_PASSWORD environment variable is not set.");
+                "SMARTCAMPUS_DB_PASSWORD environment variable is not set in Render."
+            );
         }
 
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        System.out.println("Attempting database connection...");
+
+        Connection connection =
+                DriverManager.getConnection(URL, USER, password);
+
+        System.out.println("DATABASE CONNECTION SUCCESSFUL");
+
+        return connection;
     }
 }

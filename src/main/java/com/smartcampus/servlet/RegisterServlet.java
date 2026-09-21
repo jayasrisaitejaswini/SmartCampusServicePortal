@@ -143,6 +143,8 @@ public class RegisterServlet extends HttpServlet {
 
             e.printStackTrace();
 
+            System.out.println("DATABASE ERROR: " + e.getMessage());
+
             showMessage(
                 response,
                 "Registration Failed",
