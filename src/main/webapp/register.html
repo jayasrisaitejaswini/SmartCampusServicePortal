@@ -218,7 +218,22 @@
                     required>
 
             </div>
+<div class="form-group">
+    <button type="button" id="sendOtpBtn">Send OTP</button>
+</div>
 
+<div class="form-group" id="otpSection" style="display:none;">
+    <label>Enter OTP</label>
+    <input
+        type="text"
+        id="otpInput"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP">
+
+    <button type="button" id="verifyOtpBtn">Verify OTP</button>
+
+    <p id="otpMessage"></p>
+</div>
 
             <div class="form-group">
 
@@ -322,8 +337,93 @@
 
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    
+<script>
+    emailjs.init({
+        publicKey: "98mu0otivhbGy7jlk"
+    });
+</script>
+    <script>
+let generatedOTP = "";
+let otpVerified = false;
+
+const form = document.querySelector("form");
+const emailInput = document.querySelector('input[name="email"]');
+const nameInput = document.querySelector('input[name="name"]');
+
+const sendOtpBtn = document.getElementById("sendOtpBtn");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+const otpSection = document.getElementById("otpSection");
+const otpInput = document.getElementById("otpInput");
+const otpMessage = document.getElementById("otpMessage");
+
+sendOtpBtn.addEventListener("click", function () {
+
+    const email = emailInput.value.trim();
+    const name = nameInput.value.trim();
+
+    if (email === "") {
+        alert("Please enter your email first.");
+        emailInput.focus();
+        return;
+    }
+
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const currentTime = new Date();
+    currentTime.setMinutes(currentTime.getMinutes() + 15);
+
+    const timeText = currentTime.toLocaleTimeString();
+
+    emailjs.send(
+        "service_r6w38i9",
+        "template_k4lgpnn",
+        {
+            to_email: email,
+            to_name: name,
+            passcode: generatedOTP,
+            time: timeText
+        }
+    )
+    .then(function () {
+        alert("OTP sent successfully. Check your email.");
+
+        otpSection.style.display = "block";
+        otpMessage.textContent = "OTP sent. Please check your email.";
+        otpMessage.style.color = "green";
+    })
+    .catch(function (error) {
+        console.error("EmailJS Error:", error);
+        alert("Unable to send OTP. Please try again.");
+    });
+});
+
+verifyOtpBtn.addEventListener("click", function () {
+
+    const enteredOTP = otpInput.value.trim();
+
+    if (enteredOTP === generatedOTP && generatedOTP !== "") {
+        otpVerified = true;
+
+        otpMessage.textContent = "Email verified successfully!";
+        otpMessage.style.color = "green";
+
+        alert("Email verified successfully!");
+    } else {
+        otpMessage.textContent = "Incorrect OTP. Please try again.";
+        otpMessage.style.color = "red";
+    }
+});
+
+form.addEventListener("submit", function (event) {
+
+    if (!otpVerified) {
+        event.preventDefault();
+        alert("Please verify your email using OTP before creating your account.");
+    }
+});
+</script>
 </body>
 
 </html>
